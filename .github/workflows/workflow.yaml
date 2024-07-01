@@ -1,0 +1,21 @@
+name: Sample workflow dispatch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5
+          terraform_wrapper: false
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          additional_args: '--out tfsec'
+          format: lovely,sarif
+          github_token: ${{ github.token }}
